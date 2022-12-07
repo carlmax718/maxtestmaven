@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="OneCircleLog" packages="com.microsoft.applicationinsights.log4j.v2">
+	<Appenders>
+
+		<RollingFile name="OneCircleLog" fileName="logs/app.log"
+			filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">			
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="6" modulate="true" />
+			</Policies>
+		</RollingFile>
+		<ApplicationInsightsAppender name="aiAppender" instrumentationKey="${env:APP_INSIGHTS_KEY}">
+
+		</ApplicationInsightsAppender>
+	</Appenders>
+
+	<Loggers>
+		<Root level="INFO">
+			<AppenderRef ref="OneCircleLog" />
+			<AppenderRef ref="aiAppender"  />
+		</Root>
+		
+		<Logger name="com.microsoft.azure" level="ERROR">
+			<AppenderRef ref="OneCircleLog" />
+			<AppenderRef ref="aiAppender"  />
+		</Logger>
+
+
+	</Loggers>
+</Configuration>
